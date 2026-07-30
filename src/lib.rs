@@ -34,6 +34,14 @@ pub fn materialize_panel(out: &Path) -> Result<()> {
     let w = descriptor.width.unwrap_or(2048);
     let h = descriptor.height.unwrap_or(3072);
 
+    // If compiled with GPU feature, use the GPU renderer; otherwise fall back
+    // to a simple software gradient image.
+    #[cfg(feature = "gpu")]
+    {
+        crate::gpu::render_to_png(out, w, h)?;
+        return Ok(());
+    }
+
     // Create a simple gradient image as a stand-in for a rendered panel
     let mut img: ImageBuffer<Rgba<u8>, Vec<u8>> = ImageBuffer::new(w, h);
     for (x, y, pixel) in img.enumerate_pixels_mut() {
