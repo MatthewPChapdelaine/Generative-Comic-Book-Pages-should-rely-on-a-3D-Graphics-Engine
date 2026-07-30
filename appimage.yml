@@ -1,0 +1,7 @@
+app: pleromic-pipeline
+bin: pleromic-pipeline
+version: 0.1.0
+arch: x86_64
+files:
+  - target/release/pleromic-pipeline
+  - assets/
